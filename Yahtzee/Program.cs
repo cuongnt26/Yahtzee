@@ -7,94 +7,70 @@ namespace Yahtzee
     {
         public static void Main(string[] args)
         {
-            // Input number dice, sides, rounds
-            int numberDice, numberSides, numberRounds;
-            Console.WriteLine("Input number dice:");
-            numberDice = InputNumber();
+            var (numberDice, numberSides, numberRounds) = InputNumber();
 
-            Console.WriteLine("Input number sides:");
-            numberSides = InputNumber();
-
-            Console.WriteLine("Input number rounds:");
-            numberRounds = InputNumber();
-
-            Console.WriteLine("Run with unsorted array method, press key 1:");
-            Console.WriteLine("Run with array sort method, press key any:"); 
+            Console.WriteLine("Run with LinQ, press key 1:");
+            Console.WriteLine("Run with array sort method, press key any:");
 
             int.TryParse(Console.ReadLine(), out int checkKey);
             if (checkKey == 1)
             {
-                RunWithNotSort(numberDice, numberSides, numberRounds);
-            } 
+                RunWithLinq(numberDice, numberSides, numberRounds);
+            }
             else
             {
                 RunWithSort(numberDice, numberSides, numberRounds);
-            }    
-            
+            }
+
             Console.ReadKey();
         }
 
-        private static int InputNumber()
+        private static (int, int, int) InputNumber()
         {
-            int number;
-            while (!int.TryParse(Console.ReadLine(), out number))
+            // Input number dice, sides, rounds
+            int numberDice, numberSides, numberRounds;
+
+            Console.WriteLine("Input number dice:");
+            while (!int.TryParse(Console.ReadLine(), out numberDice))
             {
-                Console.Write("Re-enter input number: ");
+                Console.Write("Re-enter input number dice: ");
             }
 
-            return number;
+            Console.WriteLine("Input number sides:");
+            while (!int.TryParse(Console.ReadLine(), out numberSides))
+            {
+                Console.Write("Re-enter input number sides: ");
+            }
+
+            Console.WriteLine("Input number rounds:");
+            while (!int.TryParse(Console.ReadLine(), out numberRounds))
+            {
+                Console.Write("Re-enter input number rounds: ");
+            }
+
+            return (numberDice, numberSides, numberRounds);
         }
 
-        private static void RunWithNotSort(int numberDice, int numberSides, int numberRounds)
+        private static void RunWithLinq(int dice, int sides, int rounds)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             var random = new Random();
-            for (int round = 0; round < numberRounds; round++)
+            for (int round = 0; round < rounds; round++)
             {
                 // Create variable to show result each round
                 string resultOneRound = "[ ";
 
                 // Initialize the array with every 1 rounds 
-                int[] arrayOneRounds = new int[numberDice];                
-                for (int i = 0; i < numberDice; i++)
+                int[] arrayOneRounds = new int[dice];
+                for (int i = 0; i < dice; i++)
                 {
-                    arrayOneRounds[i] = random.Next(1, numberSides + 1);
+                    arrayOneRounds[i] = random.Next(1, sides + 1);
                     resultOneRound = resultOneRound + arrayOneRounds[i] + " ";
                 }
 
-                // Initialize the largest score as first place
-                int scoreOneRounds = arrayOneRounds[0];
-
-                // Total score of the same sides
-                int totalSameSides = arrayOneRounds[0];
-
-                // Initialize sub-array mark the counted dice
-                int[] subArray = new int[numberDice];
-                for (int i = 0; i < numberDice; i++)
-                {
-                    // Check element already running
-                    if(!subArray.Contains(arrayOneRounds[i]))
-                    {
-                        subArray.Append(arrayOneRounds[i]);
-                        totalSameSides = arrayOneRounds[i];
-                        for (int j = i + 1; j < numberDice; j++)
-                        {
-                            if (arrayOneRounds[i] == arrayOneRounds[j])
-                            {
-                                totalSameSides = totalSameSides + arrayOneRounds[i];
-                            }
-                        }
-
-                        // Check max score in Sides
-                        if (scoreOneRounds < totalSameSides)
-                        {
-                            scoreOneRounds = totalSameSides;
-                        }
-                    }   
-                }
-
+                var scoreOneRounds = arrayOneRounds.GroupBy(item => item).Max(group => group.Sum());
                 resultOneRound = resultOneRound + "] => " + scoreOneRounds;
-                Console.WriteLine(resultOneRound);
+                PrintResult(resultOneRound);
             }
 
             watch.Stop();
@@ -112,12 +88,12 @@ namespace Yahtzee
                 string resultOneRound = "[ ";
 
                 // Initialize the array with every 1 rounds 
-                int[] arrayOneRounds = new int[dice];                
+                int[] arrayOneRounds = new int[dice];
                 for (int i = 0; i < dice; i++)
                 {
                     arrayOneRounds[i] = random.Next(1, sides + 1);
                     resultOneRound = resultOneRound + arrayOneRounds[i] + " ";
-                }                
+                }
 
                 // Sort array to calculate
                 Array.Sort(arrayOneRounds);
@@ -152,12 +128,17 @@ namespace Yahtzee
                 }
 
                 resultOneRound = resultOneRound + "] => " + scoreOneRounds;
-                Console.WriteLine(resultOneRound);
+                PrintResult(resultOneRound);
             }
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("Time run (milliseconds): {0}", elapsedMs);
+        }
+
+        private static void PrintResult(string result)
+        {
+            Console.WriteLine(result);
         }
     }
 }

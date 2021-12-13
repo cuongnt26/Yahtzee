@@ -5,3 +5,10 @@ C:\Users\THECUONG\source\repos\Yahtzee\Yahtzee\obj\Debug\Yahtzee.csproj.Assembly
 C:\Users\THECUONG\source\repos\Yahtzee\Yahtzee\obj\Debug\Yahtzee.csproj.CoreCompileInputs.cache
 C:\Users\THECUONG\source\repos\Yahtzee\Yahtzee\obj\Debug\Yahtzee.exe
 C:\Users\THECUONG\source\repos\Yahtzee\Yahtzee\obj\Debug\Yahtzee.pdb
+D:\Yahtzee\Yahtzee\bin\Debug\Yahtzee.exe.config
+D:\Yahtzee\Yahtzee\bin\Debug\Yahtzee.exe
+D:\Yahtzee\Yahtzee\bin\Debug\Yahtzee.pdb
+D:\Yahtzee\Yahtzee\obj\Debug\Yahtzee.csproj.AssemblyReference.cache
+D:\Yahtzee\Yahtzee\obj\Debug\Yahtzee.csproj.CoreCompileInputs.cache
+D:\Yahtzee\Yahtzee\obj\Debug\Yahtzee.exe
+D:\Yahtzee\Yahtzee\obj\Debug\Yahtzee.pdb
